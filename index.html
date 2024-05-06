@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let membersArr = [];
+        let memberNamesStr = "";
+        function randomNumber(minNum,maxNum)
+        {
+            return Math.floor(Math.random() * (maxNum - minNum + 1) + minNum) ;
+        }
+        function funcCreatRandomMember()
+        {
+            let array = membersArr;
+            const intervalCount = 500;
+            const stopTime = 3000;
+            document.getElementById("result").style.color = "black";
+            if(array.length === 0) {
+                document.getElementById("result").textContent = "Please input member names.";
+                return;
+            }
+
+            let timer = setInterval(function(){
+                let index = randomNumber(0,array.length - 1);
+                console.log(index);
+                console.log(array[index]);
+                document.getElementById("result").textContent = array[index];
+                },intervalCount);
+            setTimeout(function()
+            {clearInterval(timer);
+                document.getElementById("result").style.color = "green";}, stopTime);
+        }
+        function intervalCreatRandomMember()
+        {
+            const intervalCount = 200;
+
+        }
+        function funcSaveMemberNames(){
+            memberNamesStr = document.getElementById("members").value;
+            console.log(memberNamesStr);
+            localStorage.setItem("memberNamesStr",memberNamesStr);
+            membersArr = memberNamesStr.trim().split(/\s+/);
+            console.log(membersArr);
+        }
+        function funcFetchNames(){
+            memberNamesStr = localStorage.getItem("memberNamesStr");
+            document.getElementById("members").textContent = memberNamesStr;
+            membersArr = memberNamesStr.trim().split(/\s+/);
+            console.log(membersArr);
+        }
+        window.onload = funcFetchNames;
+    </script>
+    <style>
+        button {
+            display: block;
+            width: 10rem;
+        }
+        label {
+            display: block;
+        }
+        #settingContainer{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        #result{
+            font-size: 2rem;
+            font-weight: 600;
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="settingContainer">
+        <label for="members">Input member names:</label>
+        <textarea name="memberNames" id="members" cols="30" rows="10"></textarea>
+        <button onclick="funcFetchNames()">Get names</button>
+        <button onclick="funcSaveMemberNames()">Save names</button>
+        <button onclick="funcCreatRandomMember()">Find a member !</button>
+        <p>Hier we have: </p>
+        <span id="result">?</span>
+    </div>
+    <!-- <label for="max">Maximum Number:</label>
+    <input type="number" id="max"> -->
+
+
+</body>
+</html>
